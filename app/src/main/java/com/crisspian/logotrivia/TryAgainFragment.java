@@ -3,10 +3,13 @@ package com.crisspian.logotrivia;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.crisspian.logotrivia.databinding.FragmentTryAgainBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,33 +18,23 @@ import android.view.ViewGroup;
  */
 public class TryAgainFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    FragmentTryAgainBinding binding;
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+
 
     public TryAgainFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TryAgainFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static TryAgainFragment newInstance(String param1, String param2) {
         TryAgainFragment fragment = new TryAgainFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,7 +44,6 @@ public class TryAgainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -59,6 +51,18 @@ public class TryAgainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_try_again, container, false);
+        binding = FragmentTryAgainBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        String text = getString(R.string.try_again_msg, mParam1);
+        binding.trayAgainTv.setText(text);
+
+        binding.tryAgainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(binding.getRoot()).navigate(R.id.action_tryAgainFragment_to_logoTriviaFragment, getArguments());
+            }
+        });
+
+        return view;
     }
 }
